@@ -3,12 +3,16 @@ FROM maven:3.9.9-eclipse-temurin-21 AS build
 
 WORKDIR /app
 
-COPY pom.xml .
-RUN mvn dependency:go-offline -B
+COPY sharing-service/pom.xml .
+COPY sharing-service/.mvn .mvn
+COPY sharing-service/mvnw .
 
-COPY src ./src
+RUN chmod +x mvnw
+RUN ./mvnw dependency:go-offline -B
 
-RUN mvn clean package -DskipTests
+COPY sharing-service/src src
+
+RUN ./mvnw clean package -DskipTests
 
 # ---------- Runtime stage ----------
 FROM eclipse-temurin:21-jre
