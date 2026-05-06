@@ -9,7 +9,6 @@ import java.util.UUID;
 
 @Component
 public class NotesServiceClient {
-
     private final RestClient restClient;
 
     public NotesServiceClient(
